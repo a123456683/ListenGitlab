@@ -59,7 +59,7 @@ public class ServiceInfoListener {
             }
 
             // 5. 每10分钟检查一次
-            Thread.sleep(serviceProperties.getChecktime());
+            Thread.sleep(serviceProperties.getCheckTime());
         }
     }
 
@@ -72,7 +72,7 @@ public class ServiceInfoListener {
         String url = serviceInfoAgreement + "://" + serviceInfoAddress + ":" + serviceInfoPort + serviceInfoPrefix + serviceId + serviceInfoSuffix;
         List<Meta> metaList = new ArrayList<>();
 
-        String resp = HttpUtils.sendGetRequest(url, null, null);
+        String resp = HttpUtils.sendGetRequest(url, null);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 

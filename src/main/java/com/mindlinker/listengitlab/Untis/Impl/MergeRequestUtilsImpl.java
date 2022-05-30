@@ -38,7 +38,10 @@ public class MergeRequestUtilsImpl implements MergeRequestUtils {
         paramesMap.put("target_branch", targetBranch);
         paramesMap.put("title", mergeRequestTitle);
         paramesMap.put("assignee_id", assigneeId);
-        String resp = HttpUtils.sendPostRequest(createMRUrl, paramesMap, tokenKey, tokenValue);
+
+        Map<String, Object> httpHead = new HashMap<>();
+        httpHead.put(tokenKey, tokenValue);
+        String resp = HttpUtils.sendPostRequest(createMRUrl, paramesMap, httpHead);
         return resp;
     }
 }

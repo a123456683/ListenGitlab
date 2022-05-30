@@ -1,7 +1,7 @@
 assigneemap: {"zeus":"1", "room":"2", "liveservice":"3"}
 
 serviceinfo:
-  checktime: 60000
+  checkTime: 60000
   agreement: http
   address: 10.10.14.60
   port: 8500

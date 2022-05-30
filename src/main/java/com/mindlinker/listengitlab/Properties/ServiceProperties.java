@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("application.yml")
 public class ServiceProperties {
-    int checktime;
+    int checkTime;
     String agreement;
     String address;
     String port;

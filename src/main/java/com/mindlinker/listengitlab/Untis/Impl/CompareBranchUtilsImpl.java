@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class CompareBranchUtilsImpl implements CompareBranchUtils {
@@ -35,7 +37,10 @@ public class CompareBranchUtilsImpl implements CompareBranchUtils {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        String resp = HttpUtils.sendGetRequest(compareUrl, tokenKey, tokenValue);
+
+        Map<String, Object> httpHead = new HashMap<>();
+        httpHead.put(tokenKey, tokenValue);
+        String resp = HttpUtils.sendGetRequest(compareUrl, httpHead);
         JsonNode jsonNode = mapper.readValue(resp, JsonNode.class);
         JsonNode diffNode = jsonNode.get("diffs");
         DiffNode[] diffNodeList = mapper.treeToValue(diffNode, DiffNode[].class);

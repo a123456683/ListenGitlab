@@ -21,7 +21,7 @@ public class HttpUtils {
     private HttpUtils() {
     }
 
-    public static String sendPostRequest(String url, Map<String, Object> map, String tokenKey, String tokenValue) {
+    public static String sendPostRequest(String url, Map<String, Object> map, Map<String, Object> httpHead) {
         String result = "";
         try {
             CloseableHttpClient client = null;
@@ -35,7 +35,12 @@ public class HttpUtils {
             try {
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.setEntity(new UrlEncodedFormEntity(parames, "UTF-8"));
-                httpPost.addHeader(tokenKey, tokenValue);
+                if (httpHead != null && httpHead.size() > 0) {
+                    Set<String> httpHeadKeys = httpHead.keySet();
+                    for (String key : httpHeadKeys) {
+                        httpPost.addHeader(key, String.valueOf(httpHead.get(key)));
+                    }
+                }
                 client = HttpClients.createDefault();
                 response = client.execute(httpPost);
                 HttpEntity entity = response.getEntity();
@@ -54,11 +59,14 @@ public class HttpUtils {
         return result;
     }
 
-    public static String sendGetRequest(String url, String tokenKey, String tokenValue) throws IOException {
+    public static String sendGetRequest(String url, Map<String, Object> httpHead) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
-        if (StringUtils.hasLength(tokenKey)){
-            httpGet.addHeader(tokenKey, tokenValue);
+        if (httpHead != null && httpHead.size() > 0) {
+            Set<String> keys = httpHead.keySet();
+            for (String key : keys) {
+                httpGet.addHeader(key, String.valueOf(httpHead.get(key)));
+            }
         }
         CloseableHttpResponse response = httpClient.execute(httpGet);
         String resp;
