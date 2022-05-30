@@ -1,0 +1,93 @@
+{
+  "groups": [
+    {
+      "name": "assigneemap",
+      "type": "com.mindlinker.listengitlab.Properties.AssigneeProperties",
+      "sourceType": "com.mindlinker.listengitlab.Properties.AssigneeProperties"
+    },
+    {
+      "name": "createmr",
+      "type": "com.mindlinker.listengitlab.Properties.CreateMRProperties",
+      "sourceType": "com.mindlinker.listengitlab.Properties.CreateMRProperties"
+    },
+    {
+      "name": "gitlab",
+      "type": "com.mindlinker.listengitlab.Properties.GitlabProperties",
+      "sourceType": "com.mindlinker.listengitlab.Properties.GitlabProperties"
+    },
+    {
+      "name": "serviceinfo",
+      "type": "com.mindlinker.listengitlab.Properties.ServiceProperties",
+      "sourceType": "com.mindlinker.listengitlab.Properties.ServiceProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "assigneemap.assignee-map",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.mindlinker.listengitlab.Properties.AssigneeProperties"
+    },
+    {
+      "name": "createmr.title",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.CreateMRProperties"
+    },
+    {
+      "name": "gitlab.address",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.GitlabProperties"
+    },
+    {
+      "name": "gitlab.agreement",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.GitlabProperties"
+    },
+    {
+      "name": "gitlab.target-branch",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.GitlabProperties"
+    },
+    {
+      "name": "gitlab.token-key",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.GitlabProperties"
+    },
+    {
+      "name": "gitlab.token-value",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.GitlabProperties"
+    },
+    {
+      "name": "serviceinfo.address",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.ServiceProperties"
+    },
+    {
+      "name": "serviceinfo.agreement",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.ServiceProperties"
+    },
+    {
+      "name": "serviceinfo.check-time",
+      "type": "java.lang.Integer",
+      "sourceType": "com.mindlinker.listengitlab.Properties.ServiceProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "serviceinfo.port",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.ServiceProperties"
+    },
+    {
+      "name": "serviceinfo.prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.ServiceProperties"
+    },
+    {
+      "name": "serviceinfo.suffix",
+      "type": "java.lang.String",
+      "sourceType": "com.mindlinker.listengitlab.Properties.ServiceProperties"
+    }
+  ],
+  "hints": []
+}
