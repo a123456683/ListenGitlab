@@ -1,0 +1,19 @@
+assigneemap: {"zeus":"1", "room":"2", "liveservice":"3"}
+
+serviceinfo:
+  checktime: 60000
+  agreement: http
+  address: 10.10.14.60
+  port: 8500
+  prefix: /v1/health/service/mindlinker-
+  suffix: -dev?passing
+
+gitlab:
+  tokenKey: PRIVATE-TOKEN
+  tokenValue: glpat-nyzxmto439EJP7tojKDT
+  agreement: https
+  address: gitlab.gz.cvte.cn
+  targetBranch: feature/addComitInfo
+
+createmr:
+  title: "上线自动合并master"
