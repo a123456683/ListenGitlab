@@ -1,7 +1,9 @@
-assigneemap: {"zeus":"1", "room":"2", "liveservice":"3"}
+assigneemap: {"zeus":"4373", "room":"2", "liveservice":"3"}
+#  https://gitlab.gz.cvte.cn/api/v4/users?username=i_linjunyi
+#  https:// gitlab地址 /api/v4/users?username= 用户名
 
 serviceinfo:
-  checkTime: 600
+  checkTime: 60
   agreement: http
   address: 10.10.14.60
   port: 8500

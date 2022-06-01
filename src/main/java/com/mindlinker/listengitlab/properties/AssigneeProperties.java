@@ -1,4 +1,4 @@
-package com.mindlinker.listengitlab.Properties;
+package com.mindlinker.listengitlab.properties;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,14 +1,19 @@
-package com.mindlinker.listengitlab.Properties;
+package com.mindlinker.listengitlab.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+
 @Data
-@ConfigurationProperties(prefix = "createmr")
+@ConfigurationProperties(prefix = "gitlab")
 @Component
 @PropertySource("application.yml")
-public class CreateMRProperties {
-    String title;
+public class GitlabProperties {
+    String tokenKey;
+    String tokenValue;
+    String agreement;
+    String address;
+    String targetBranch;
 }

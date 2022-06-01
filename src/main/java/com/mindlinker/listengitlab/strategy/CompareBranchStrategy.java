@@ -1,7 +1,7 @@
-package com.mindlinker.listengitlab.Untis;
+package com.mindlinker.listengitlab.strategy;
 
 import java.io.IOException;
 
-public interface CompareBranchUtils {
+public interface CompareBranchStrategy {
     boolean compareBranchIsDiff(String projectId, String gitCommitId) throws IOException;
 }

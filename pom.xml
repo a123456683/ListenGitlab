@@ -11,6 +11,7 @@
     <groupId>com.MindLinker</groupId>
     <artifactId>listengitlab</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>listengitlab</name>
     <description>Demo project for Spring Boot</description>
     <properties>
@@ -20,6 +21,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>
@@ -62,6 +68,7 @@
     </dependencies>
 
     <build>
+        <finalName>listen-gitlab</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

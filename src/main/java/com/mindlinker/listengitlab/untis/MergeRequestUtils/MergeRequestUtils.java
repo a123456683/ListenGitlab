@@ -1,4 +1,4 @@
-package com.mindlinker.listengitlab.Untis;
+package com.mindlinker.listengitlab.untis.MergeRequestUtils;
 
 import java.io.UnsupportedEncodingException;
 

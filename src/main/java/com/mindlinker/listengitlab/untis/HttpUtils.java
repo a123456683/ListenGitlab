@@ -1,5 +1,6 @@
-package com.mindlinker.listengitlab.Untis;
+package com.mindlinker.listengitlab.untis;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -9,15 +10,14 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.util.StringUtils;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class HttpUtils {
+@Slf4j
+public final class HttpUtils {
     private HttpUtils() {
     }
 
@@ -54,6 +54,7 @@ public class HttpUtils {
                 }
             }
         } catch (Exception e) {
+            log.error(result);
             e.printStackTrace();
         }
         return result;
@@ -69,11 +70,14 @@ public class HttpUtils {
             }
         }
         CloseableHttpResponse response = httpClient.execute(httpGet);
-        String resp;
+        String resp = "";
         try {
             HttpEntity entity = response.getEntity();
             resp = EntityUtils.toString(entity, "utf-8");
             EntityUtils.consume(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(resp);
         } finally {
             response.close();
         }
