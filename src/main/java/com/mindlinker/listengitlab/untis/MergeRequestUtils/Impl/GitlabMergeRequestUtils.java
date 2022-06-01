@@ -1,5 +1,8 @@
 package com.mindlinker.listengitlab.untis.MergeRequestUtils.Impl;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindlinker.listengitlab.properties.CreateMRProperties;
 import com.mindlinker.listengitlab.properties.GitlabProperties;
 import com.mindlinker.listengitlab.untis.HttpUtils;
@@ -8,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +26,8 @@ public class GitlabMergeRequestUtils implements MergeRequestUtils {
     CreateMRProperties createMRProperties;
 
     @Override
-    public String createMergeRequest(String projectId, String gitBranch, int assigneeId){
-        log.debug(this.getClass().getName() + ".createMergeRequest(): method begin, and projectId = " + projectId + "and gitBranch = " + gitBranch + "and assigneeId = " + assigneeId);
+    public String createMergeRequest(String projectId, String gitBranch, int assigneeId) throws IOException {
+        log.info("createMergeRequest(): method begin, and projectId = " + projectId + " and gitBranch = " + gitBranch + " and assigneeId = " + assigneeId);
 
         String gitlabAgreement = gitlabProperties.getAgreement();
         String gitlabAddress = gitlabProperties.getAddress();
@@ -45,9 +49,17 @@ public class GitlabMergeRequestUtils implements MergeRequestUtils {
         Map<String, Object> httpHead = new HashMap<>();
         httpHead.put(tokenKey, tokenValue);
 
-        log.debug(this.getClass().getName() + ".createMergeRequest(): Prepare for create MergeRequest");
+        log.debug("createMergeRequest(): Prepare to create MergeRequest");
         String resp = HttpUtils.sendPostRequest(createMRUrl, paramesMap, httpHead);
-        log.debug(this.getClass().getName() + ".createMergeRequest(): resp = " + resp);
+        log.debug("createMergeRequest(): resp = " + resp);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonNode = mapper.readValue(resp, JsonNode.class);
+        JsonNode messageNode = jsonNode.get("message");
+        if (messageNode != null) {
+            log.info("messageNode : " + messageNode);
+        }
         return resp;
     }
 }

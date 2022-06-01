@@ -27,7 +27,7 @@ public class CompareBranchUseDiff implements CompareBranchStrategy {
 
     @Override
     public boolean compareBranchIsDiff(String projectId, String gitBranch) throws IOException {
-        log.debug(this.getClass().getName() + ".compareBranchIsDiff(): method begin, and projectId = " + projectId + "and gitBranch = " + gitBranch);
+        log.info("compareBranchIsDiff(): method begin, and projectId = " + projectId + " and gitBranch = " + gitBranch);
 
         String gitlabAgreement = gitlabProperties.getAgreement();
         String gitlabAddress = gitlabProperties.getAddress();
@@ -47,9 +47,9 @@ public class CompareBranchUseDiff implements CompareBranchStrategy {
         Map<String, Object> httpHead = new HashMap<>();
         httpHead.put(tokenKey, tokenValue);
 
-        log.debug(this.getClass().getName() + ".compareBranchIsDiff(): Prepare for comparison");
+        log.debug("compareBranchIsDiff(): Prepare for comparison");
         String resp = HttpUtils.sendGetRequest(compareUrl, httpHead);
-        log.debug(this.getClass().getName() + ".compareBranchIsDiff(): resp = " + resp);
+        log.debug("compareBranchIsDiff(): resp = " + resp);
 
         JsonNode jsonNode = mapper.readValue(resp, JsonNode.class);
         JsonNode diffNode = jsonNode.get("diffs");
@@ -59,10 +59,10 @@ public class CompareBranchUseDiff implements CompareBranchStrategy {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         DiffNode[] diffNodeList = mapper.treeToValue(diffNode, DiffNode[].class);
         if (diffNodeList != null && diffNodeList.length > 0) {
-            log.debug("Two branches are different");
+            log.info("Two branches are different, prepare to create MergeRequest");
             return true;
         } else {
-            log.debug("Two branches are the same");
+            log.info("Two branches are the same, don't create MergeRequest");
             return false;
         }
     }

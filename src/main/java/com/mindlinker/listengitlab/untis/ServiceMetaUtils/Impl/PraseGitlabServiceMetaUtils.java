@@ -29,7 +29,7 @@ public class PraseGitlabServiceMetaUtils implements ServiceMetaUtils {
 
     @Override
     public Meta getNewestMeta(String serviceId) throws IOException {
-        log.debug(this.getClass().getName() + ".getNewestMeta(): method begin, and serviceId = " + serviceId);
+        log.info("getNewestMeta(): method begin, and serviceId = " + serviceId);
 
         String serviceInfoAgreement = serviceProperties.getAgreement();
         String serviceInfoAddress = serviceProperties.getAddress();
@@ -39,9 +39,9 @@ public class PraseGitlabServiceMetaUtils implements ServiceMetaUtils {
         String url = serviceInfoAgreement + "://" + serviceInfoAddress + ":" + serviceInfoPort + serviceInfoPrefix + serviceId + serviceInfoSuffix;
         List<Meta> metaList = new ArrayList<>();
 
-        log.debug(this.getClass().getName() + ".getNewestMeta(): Ready to visit Consual");
+        log.debug("getNewestMeta(): Ready to visit Consual");
         String resp = HttpUtils.sendGetRequest(url, null);
-        log.debug(this.getClass().getName() + ".getNewestMeta(): resp = " + resp);
+        log.debug("getNewestMeta(): resp = " + resp);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -58,7 +58,7 @@ public class PraseGitlabServiceMetaUtils implements ServiceMetaUtils {
             }
         }
 
-        log.debug(this.getClass().getName() + ".getNewestMeta(): metaList.size() = " + metaList.size());
+        log.debug("getNewestMeta(): metaList.size() = " + metaList.size());
         if (metaList.size() > 0) {
             Collections.sort(metaList, new Comparator<Meta>() {
                 @Override
@@ -67,10 +67,10 @@ public class PraseGitlabServiceMetaUtils implements ServiceMetaUtils {
                 }
             });
             Meta newestMeta = metaList.get(0);
-            log.debug("return newestMeta");
+            log.info("The Service has submit information, return newestMeta");
             return newestMeta;
         } else {
-            log.debug("newestMeta is null");
+            log.info("The Service has not submit information, newestMeta is null");
             return null;
         }
     }
