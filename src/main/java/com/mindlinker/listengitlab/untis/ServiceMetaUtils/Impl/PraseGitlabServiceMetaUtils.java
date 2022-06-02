@@ -1,5 +1,6 @@
 package com.mindlinker.listengitlab.untis.ServiceMetaUtils.Impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,7 +30,7 @@ public class PraseGitlabServiceMetaUtils implements ServiceMetaUtils {
     GitlabProperties gitlabProperties;
 
     @Override
-    public Meta getNewestMeta(String serviceId) throws IOException {
+    public Meta getNewestMeta(String serviceId) throws JsonProcessingException, UnsupportedEncodingException {
         log.info("getNewestMeta(): method begin, and serviceId = " + serviceId);
 
         String serviceInfoAgreement = serviceProperties.getAgreement();

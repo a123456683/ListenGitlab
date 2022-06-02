@@ -1,5 +1,6 @@
 package com.mindlinker.listengitlab.untis.MergeRequestUtils.Impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +9,7 @@ import com.mindlinker.listengitlab.properties.GitlabProperties;
 import com.mindlinker.listengitlab.untis.HttpUtils;
 import com.mindlinker.listengitlab.untis.MergeRequestUtils.MergeRequestUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +28,7 @@ public class GitlabMergeRequestUtils implements MergeRequestUtils {
     CreateMRProperties createMRProperties;
 
     @Override
-    public String createMergeRequest(String projectId, String gitBranch, int assigneeId) throws IOException {
+    public String createMergeRequest(String projectId, String gitBranch, int assigneeId) {
         log.info("createMergeRequest(): method begin, and projectId = " + projectId + " and gitBranch = " + gitBranch + " and assigneeId = " + assigneeId);
 
         String gitlabAgreement = gitlabProperties.getAgreement();
@@ -53,13 +55,28 @@ public class GitlabMergeRequestUtils implements MergeRequestUtils {
         String resp = HttpUtils.sendPostRequest(createMRUrl, paramesMap, httpHead);
         log.debug("createMergeRequest(): resp = " + resp);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        JsonNode jsonNode = mapper.readValue(resp, JsonNode.class);
-        JsonNode messageNode = jsonNode.get("message");
-        if (messageNode != null) {
-            log.info("messageNode : " + messageNode);
-        }
         return resp;
+    }
+
+    @Override
+    public boolean judgeCreateMRsuccessfully(String result) throws JsonProcessingException {
+        if (!StringUtils.isEmpty(result)) {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            JsonNode jsonNode = mapper.readValue(result, JsonNode.class);
+            JsonNode diffNode = jsonNode.get("diff_refs");
+            if (diffNode != null) {
+                JsonNode baseSha = diffNode.get("base_sha");
+                JsonNode headSha = diffNode.get("head_sha");
+                if (baseSha != null && headSha != null) {
+                    return true;
+                }
+            }
+            JsonNode messageNode = jsonNode.get("message");
+            if (messageNode != null) {
+                log.info("messageNode : " + messageNode);
+            }
+        }
+        return false;
     }
 }

@@ -4,12 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +56,13 @@ public final class HttpUtils {
                 }
             }
         } catch (Exception e) {
-            log.error(result);
-            e.printStackTrace();
+            log.error("Exception", e);
+            log.error("result = " + result);
         }
         return result;
     }
 
-    public static String sendGetRequest(String url, Map<String, Object> httpHead) throws IOException {
+    public static String sendGetRequest(String url, Map<String, Object> httpHead) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         if (httpHead != null && httpHead.size() > 0) {
@@ -69,17 +71,58 @@ public final class HttpUtils {
                 httpGet.addHeader(key, String.valueOf(httpHead.get(key)));
             }
         }
-        CloseableHttpResponse response = httpClient.execute(httpGet);
+        CloseableHttpResponse response = null;
         String resp = "";
         try {
+            response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
             resp = EntityUtils.toString(entity, "utf-8");
             EntityUtils.consume(entity);
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error(resp);
+            log.error("Exception", e);
+            log.error("result = " + resp);
         } finally {
-            response.close();
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    log.error("Exception", e);
+                }
+            }
+        }
+        return resp;
+    }
+
+    public static String sendDeleteRequest(String url, Map<String, Object> map, Map<String, Object> httpHead) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpDelete httpDelete = new HttpDelete(url);
+        httpDelete.setHeader("Content-type", "application/json");
+        httpDelete.setHeader("DataEncoding", "UTF-8");
+
+        if (httpHead != null && httpHead.size() > 0) {
+            Set<String> keys = httpHead.keySet();
+            for (String key : keys) {
+                httpDelete.addHeader(key, String.valueOf(httpHead.get(key)));
+            }
+        }
+        String resp = "";
+        CloseableHttpResponse response = null;
+        try {
+            response = httpClient.execute(httpDelete);
+            HttpEntity entity = response.getEntity();
+            resp = EntityUtils.toString(entity, "utf-8");
+            EntityUtils.consume(entity);
+        } catch (Exception e) {
+            log.error("Exception", e);
+            log.error("resp = " + resp);
+        } finally {
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    log.error("Exception", e);
+                }
+            }
         }
         return resp;
     }
